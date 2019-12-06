@@ -5,7 +5,7 @@
 // - add 'contracts' to 'GenesisConfig'
 
 use primitives::{Pair, Public, sr25519};
-use test_node_runtime::{
+use oracle_module_runtime::{
 	AccountId, AuraConfig, BalancesConfig, GenesisConfig, GrandpaConfig,
 	SudoConfig, IndicesConfig, SystemConfig, WASM_BINARY,
 	// --- start added by SCS -------------------------------------------------

@@ -6,7 +6,7 @@
 use std::sync::Arc;
 use std::time::Duration;
 use substrate_client::LongestChain;
-use test_node_runtime::{self, GenesisConfig, opaque::Block, RuntimeApi};
+use oracle_module_runtime::{self, GenesisConfig, opaque::Block, RuntimeApi};
 use substrate_service::{error::{Error as ServiceError}, AbstractService, Configuration, ServiceBuilder};
 use transaction_pool::{self, txpool::{Pool as TransactionPool}};
 use inherents::InherentDataProviders;
@@ -20,8 +20,8 @@ use basic_authorship;
 // Our native executor instance.
 native_executor_instance!(
 	pub Executor,
-	test_node_runtime::api::dispatch,
-	test_node_runtime::native_version,
+	oracle_module_runtime::api::dispatch,
+	oracle_module_runtime::native_version,
 );
 
 construct_simple_protocol! {
@@ -39,7 +39,7 @@ macro_rules! new_full_start {
 		let inherent_data_providers = inherents::InherentDataProviders::new();
 
 		let builder = substrate_service::ServiceBuilder::new_full::<
-			test_node_runtime::opaque::Block, test_node_runtime::RuntimeApi, crate::service::Executor
+			oracle_module_runtime::opaque::Block, oracle_module_runtime::RuntimeApi, crate::service::Executor
 		>($config)?
 			.with_select_chain(|_config, backend| {
 				Ok(substrate_client::LongestChain::new(backend.clone()))
@@ -52,7 +52,7 @@ macro_rules! new_full_start {
 					.ok_or_else(|| substrate_service::Error::SelectChainRequired)?;
 
 				let (grandpa_block_import, grandpa_link) =
-					grandpa::block_import::<_, _, _, test_node_runtime::RuntimeApi, _>(
+					grandpa::block_import::<_, _, _, oracle_module_runtime::RuntimeApi, _>(
 						client.clone(), &*client, select_chain
 					)?;
 

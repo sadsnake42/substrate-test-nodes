@@ -1,6 +1,6 @@
 // Changes by SCS:
 // - add module currency
-// - use kitty module
+// - use oracle module
 // - change name from 'node-template' to 'node' (spec_name) and 'test-node' (impl_name)
 // - add parameter_types for contracts
 // - add contracts::Trait for Runtime
@@ -81,7 +81,7 @@ pub mod currency {
 
 use currency::{MILLICENTS, CENTS, DOLLARS};
 
-mod kitty;
+mod oracle;
 // --- end added by SCS -------------------------------------------------------
 
 /// Opaque types. These are used by the CLI to instantiate machinery that don't need to know
@@ -301,8 +301,8 @@ impl sudo::Trait for Runtime {
 }
 
 // --- start changed by SCS -----------------------------------------------
-/// Used for the module template in `./kitty.rs`
-impl kitty::Trait for Runtime {
+/// Used for the module template in `./oracle.rs`
+impl oracle::Trait for Runtime {
 	type Event = Event;
 }
 // --- end changed by SCS -------------------------------------------------
@@ -323,7 +323,7 @@ construct_runtime!(
 		Sudo: sudo,
 		Contract: contracts,
 		// --- start added by SCS ---------------------------------------------
-		KittyModule: kitty::{Module, Call, Storage, Event<T>},
+		OracleModule: oracle::{Module, Call, Storage, Event<T>},
 		// --- start added by SCS ---------------------------------------------
 		RandomnessCollectiveFlip: randomness_collective_flip::{Module, Call, Storage},
 	}
